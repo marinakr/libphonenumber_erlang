@@ -71,11 +71,10 @@ get_rules_for_code([{Code, Phone} | Rest]) ->
       if IsValid ->
         #{valid => true,
           phone => InternationalPhone,
-          ciuntry_metadata => #{
+          country_metadata => #{
             name => Name,
             id => Id,
-            code => Code
-          }};
+            code => Code}};
         true ->
           get_rules_for_code(Rest)
       end;
