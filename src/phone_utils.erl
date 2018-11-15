@@ -47,7 +47,7 @@ mobile_phone_number_info(<<"+", C1:1/binary, C2:1/binary, C3:1/binary, Phone3N/b
   get_rules_for_code(#{errors => []}, Pairs);
 
 mobile_phone_number_info(_) ->
-  #{valid => false, error_msg => "Phone number should starts with '+'"}.
+  #{valid => false, errors => [<<"Phone number should starts with '+'">>]}.
 
 %% -------------------------------------------------------------------
 %% @private
