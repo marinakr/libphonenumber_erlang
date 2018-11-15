@@ -44,29 +44,31 @@ mobile_phone_number_info(<<"+", C1:1/binary, C2:1/binary, C3:1/binary, Phone3N/b
   Pairs = [
     {Code3N, Phone3N},
     {Code2N, Phone2N}],
-  get_rules_for_code(Pairs);
+  get_rules_for_code(#{errors => []}, Pairs);
 
 mobile_phone_number_info(_) ->
-  #{valid => false}.
+  #{valid => false, error_msg => "Phone number should starts with '+'"}.
 
 %% -------------------------------------------------------------------
 %% @private
 %% -------------------------------------------------------------------
--spec get_rules_for_code(CodePhonePairs) -> Result when
+-spec get_rules_for_code(ValidationLog, CodePhonePairs) -> Result when
+  ValidationLog :: maps:map(),
   CodePhonePairs :: proplists:proplist(),
   Result :: maps:map().
 
-get_rules_for_code([]) ->
-  #{valid => false};
+get_rules_for_code(ValidationLog, []) -> ValidationLog#{valid => false};
 
-get_rules_for_code([{Code, Phone} | Rest]) ->
+get_rules_for_code(ValidationLog = #{errors := Errors}, [{Code, Phone} | Rest]) ->
   case mnesia:dirty_read(?PHONENUMBERS, Code) of
-    [#?PHONENUMBERS{
+    [
+    #?PHONENUMBERS{
       lengths = LenghtRange,
       pattern = Pattern,
       name = Name,
-      id = Id}] ->
-      IsValid = valid_phone_with_rules(Phone, LenghtRange, Pattern),
+      id = Id}
+    ] ->
+      #{valid := IsValid, error := Error} =  valid_phone_with_rules(Phone, LenghtRange, Pattern),
       InternationalPhone = <<"+", Code/binary, Phone/binary>>,
       if IsValid ->
         #{valid => true,
@@ -76,10 +78,11 @@ get_rules_for_code([{Code, Phone} | Rest]) ->
             id => Id,
             code => Code}};
         true ->
-          get_rules_for_code(Rest)
+          get_rules_for_code(ValidationLog#{errors => [Error | Errors]}, Rest)
       end;
     _ ->
-      get_rules_for_code(Rest)
+    Error = <<"No country code info found for code ", Code/binary>>,
+    get_rules_for_code(ValidationLog#{errors => [Error | Errors]}, Rest)
   end.
 
 %% -------------------------------------------------------------------
@@ -90,30 +93,29 @@ get_rules_for_code([{Code, Phone} | Rest]) ->
   Phone :: binary(),
   Rules :: list({integer(), integer()}),
   Pattern :: binary(),
-  Result :: boolean().
+  Result :: maps:map().
 
 valid_phone_with_rules(Phone, no_rules, _) ->
   %validate does it looks like phone number
   case re:run(Phone, ?REGEXP_PHONE, [{capture, none}]) of
     match ->
-      true;
+      #{valid => true, error => null};
     _ ->
-      false
+      #{valid => false, error => <<"Not match with phonenumber regular expression">>}
   end;
 
 valid_phone_with_rules(_Phone, [], _) ->
-  false;
+  #{valid => false, error => <<"No matched rules for current phone min/max length find">>};
 
 valid_phone_with_rules(Phone, [{Min, Max} | LengthRange], Pattern) ->
   Size = erlang:size(Phone),
   if (Size >= Min) and (Size =< Max) ->
     case re:run(Phone, Pattern, [{capture, none}]) of
       match ->
-        true;
+        #{valid => true, error => null};
       _ ->
-        false
+        #{valid => false, error => <<"Pattern '", Pattern/binary, "' compilation failed">>}
     end;
     true ->
       valid_phone_with_rules(Phone, LengthRange, Pattern)
   end.
-
