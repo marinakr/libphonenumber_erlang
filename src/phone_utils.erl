@@ -101,11 +101,11 @@ valid_phone_with_rules(Phone, no_rules, _) ->
     match ->
       #{valid => true, error => null};
     _ ->
-      #{valid => false, error => <<"Not match with phonenumber regular expression">>}
+      #{valid => false, error => <<"No match with phonenumber regular expression">>}
   end;
 
 valid_phone_with_rules(_Phone, [], _) ->
-  #{valid => false, error => <<"No matched rules for current phone min/max length find">>};
+  #{valid => false, error => <<"No match for current phone min/max length find">>};
 
 valid_phone_with_rules(Phone, [{Min, Max} | LengthRange], Pattern) ->
   Size = erlang:size(Phone),
