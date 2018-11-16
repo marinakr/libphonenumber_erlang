@@ -7,8 +7,7 @@
 -define(FILE_PHONE_PHONE_FORMATS, "/PhoneNumberMetadata.xml").
 -define(REGEXP_PHONE, <<"^\\+[0-9]{8,15}$">>).
 
--define(PHONENUMBERS, countryphones).
--record(?PHONENUMBERS, {code, id, lengths = [], name, pattern, metadata}).
+-record(countryphones, {code, code_rules = []}).
 
 -record(phone_pattern, {
   code = undefined,
@@ -22,3 +21,5 @@
   max = "",
   is_range = false,
   part}).
+
+-record(code_set, {id, lengths = [], name, pattern, metadata}).

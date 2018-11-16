@@ -75,7 +75,8 @@ parce_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when i
     pattern = Pattern} = CountryPhoneInfo,
   CountryInfoMap = #{
     id => Id, name => Name, pattern => Pattern, lengths => format_rules(LengthInfo)},
-  NewAcc = maps:put(Code, CountryInfoMap, Acc),
+  PrevCodes = maps:get(Code, Acc, []),
+  NewAcc =  maps:put(Code, [CountryInfoMap | PrevCodes], Acc),
   parce_country_name(undefined, Rest, NewAcc);
 
 parce_country_name(State, [_H|Rest], Acc) ->

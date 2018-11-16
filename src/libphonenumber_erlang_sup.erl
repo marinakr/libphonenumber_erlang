@@ -24,13 +24,12 @@ init([]) ->
 load_countryphonenumbers_rules() ->
 	Rules = libphonenumber_parser:xml_file2memory(?FILE_PHONE_PHONE_FORMATS),
 	maps:fold(
-		fun(Code, #{id := Id, lengths := Length, pattern := Pattern, name := Name}, _) ->
-			Record = #?PHONENUMBERS{
+		fun(Code, CodeRulesInfo, _) ->
+			CodeRules = [#code_set{id = Id, lengths = Length, name = Name, pattern = Pattern} ||
+			  #{id := Id, lengths := Length, pattern := Pattern, name := Name} <- CodeRulesInfo],
+			Record = #countryphones{
 				code = Code,
-				id = Id,
-				lengths = Length,
-				name = Name,
-				pattern = Pattern},
+				code_rules = CodeRules},
 			mnesia:dirty_write(Record)
 		end, #{}, Rules),
 	ok.
@@ -43,8 +42,6 @@ load_countryphonenumbers_rules() ->
 init_mnesia() ->
 	mnesia:create_schema([node()]),
 	mnesia:start(),
-	mnesia:create_table(?PHONENUMBERS,
-		[{attributes, record_info(fields, ?PHONENUMBERS)},
-			{index, [#?PHONENUMBERS.id]}]),
+	mnesia:create_table(countryphones,
+		[{attributes, record_info(fields, countryphones)}]),
 	ok.
-
