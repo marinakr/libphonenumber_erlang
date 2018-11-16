@@ -17,8 +17,8 @@
 ERLANG_MK_FILENAME := $(realpath $(lastword $(MAKEFILE_LIST)))
 export ERLANG_MK_FILENAME
 
-ERLANG_MK_VERSION = 
-ERLANG_MK_WITHOUT = 
+ERLANG_MK_VERSION =
+ERLANG_MK_WITHOUT =
 
 # Make 3.81 and 3.82 are deprecated.
 
@@ -4914,7 +4914,7 @@ endif
 
 # Configuration.
 
-ERLC_OPTS ?= -Werror +debug_info +warn_export_vars +warn_shadow_vars \
+ERLC_OPTS ?= +debug_info +warn_export_vars +warn_shadow_vars \
 	+warn_obsolete_guard # +bin_opt_info +warn_export_all +warn_missing_spec
 COMPILE_FIRST ?=
 COMPILE_FIRST_PATHS = $(addprefix src/,$(addsuffix .erl,$(COMPILE_FIRST)))
