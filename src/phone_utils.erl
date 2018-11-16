@@ -40,10 +40,13 @@ is_mobile_valid_phone(Msisdn) ->
 mobile_phone_number_info(<<"+", C1:1/binary, C2:1/binary, C3:1/binary, Phone3N/binary>>) ->
   Code3N = <<C1:1/binary, C2:1/binary, C3:1/binary>>,
   Code2N = <<C1:1/binary, C2:1/binary>>,
+  Code1N = C1,
+  Phone1N = <<C2/binary, C3/binary, Phone3N/binary>>,
   Phone2N = <<C3/binary, Phone3N/binary>>,
   Pairs = [
     {Code3N, Phone3N},
-    {Code2N, Phone2N}],
+    {Code2N, Phone2N},
+    {Code1N, Phone1N}],
   get_rules_for_code(#{errors => []}, Pairs);
 
 mobile_phone_number_info(_) ->
