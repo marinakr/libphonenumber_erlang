@@ -26,3 +26,17 @@ libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).
         #{code => <<"1">>,id => <<"US">>,name => <<"United States">>},
     errors => [],phone => <<"+14088881406">>,valid => true}
   ```
+
+  Use as dependency:
+  Example of rebar.config for application myapp
+  ```
+  {erl_opts, [debug_info]}.
+  {deps, [
+     {libphonenumber_erlang, ".*", {git, "https://github.com/marinakr/libphonenumber_erlang.git", {branch, "master"}}}
+     ]}.
+
+  {shell, [
+    % {config, [{config, "config/sys.config"}]},
+      {apps, [libphonenumber_erlang, myapp]}
+    ]}.
+  ```
