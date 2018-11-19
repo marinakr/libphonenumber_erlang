@@ -1,8 +1,8 @@
 %% -*- mode: erlang; -*-
 {application, libphonenumber_erlang,
- [{description, "A mocking framework for Erlang"},
+ [{description, "Libphonenumber for Erlang, forked from https://github.com/googlei18n/libphonenumber"},
   {vsn, "0.1"},
-  {modules, []},
+  {modules, [libphonenumber_erlang_app]},
   {registered, []},
   {applications, [kernel, stdlib, tools]},
   {env, []}]}.
