@@ -2,10 +2,10 @@
 %%% @author marinakr
 %%% Created : 04. Apr 2018 19:04
 %%%-------------------------------------------------------------------
--module(phone_utils).
+-module(libphonenumbers).
 -author("marinakr").
 
--include("include/phonenumbers.hrl").
+-include_lib("include/phonenumbers.hrl").
 
 %% API
 -export([

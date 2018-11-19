@@ -1,5 +1,5 @@
 %% -*- mode: erlang; -*-
-{application, phone_utils,
+{application, libphonenumber_erlang,
  [{description, "A mocking framework for Erlang"},
   {vsn, "0.1"},
   {modules, []},

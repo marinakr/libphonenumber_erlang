@@ -10,18 +10,18 @@ cd libphonenumber_erlang/
  ```
  Functions examples:
  ```
-phone_utils:is_mobile_valid_phone(<<"+380988562241">>).
+libphonenumbers:is_mobile_valid_phone(<<"+380988562241">>).
 true
 
-phone_utils:is_mobile_valid_phone(<<"+380338560241">>).
+libphonenumbers:is_mobile_valid_phone(<<"+380338560241">>).
 false
 
-phone_utils:mobile_phone_number_info(<<"+380967112244">>).
+libphonenumbers:mobile_phone_number_info(<<"+380967112244">>).
 #{country_metadata =>
       #{code => <<"380">>,id => <<"UA">>,name => <<"Ukraine">>},
   phone => <<"+380967112244">>,valid => true}
 
-phone_utils:mobile_phone_number_info(<<"+14088881406">>).    
+libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).    
   #{country_metadata =>
         #{code => <<"1">>,id => <<"US">>,name => <<"United States">>},
     errors => [],phone => <<"+14088881406">>,valid => true}

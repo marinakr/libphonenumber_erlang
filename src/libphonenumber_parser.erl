@@ -5,7 +5,7 @@
 -module(libphonenumber_parser).
 -author("marinakr").
 
--include("include/phonenumbers.hrl").
+-include_lib("include/phonenumbers.hrl").
 -include_lib("xmerl/include/xmerl.hrl").
 
 
