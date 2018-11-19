@@ -1,8 +1,14 @@
 %% -*- mode: erlang; -*-
 {application, libphonenumber_erlang,
- [{description, "Libphonenumber for Erlang, forked from https://github.com/googlei18n/libphonenumber"},
-  {vsn, "0.1"},
-  {modules, [libphonenumber_erlang_app]},
+ [{description, "Libphonenumber for Erlang"},
+  {vsn, "0.1.1"},
+  {pkg_name, libphonenumber_erlang},
+  {modules, []},
+  {mod, {libphonenumber_erlang_app, []}},
+  {licenses,["Apache 2.0"]},
+  {links,[
+    {"Github","https://github.com/marinakr/libphonenumber_erlang"},
+    {"Github", "https://github.com/googlei18n/libphonenumber"}]},
   {registered, []},
   {applications, [kernel, stdlib, tools]},
   {env, []}]}.
