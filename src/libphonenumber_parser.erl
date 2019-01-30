@@ -25,7 +25,7 @@
 %% And return map stored in include/country_phone_rules.hrl
 %% @end
 %% -------------------------------------------------------------------
--spec xml_file2memory(list()) -> ok | error.
+-spec xml_file2memory(list()) -> maps:map() | error.
 
 xml_file2memory(FileName) ->
   case xmerl_scan:file(FileName) of
@@ -165,7 +165,6 @@ get_example_number([#xmlElement{name = exampleNumber, content = [#xmlText{value 
   ExampleNumber;
 
 get_example_number([_E|Rest]) ->
-  io:format("~n EEEEEE ::::: ~p~n", [_E]),
   get_example_number(Rest).
 
 %% -------------------------------------------------------------------

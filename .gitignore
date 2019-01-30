@@ -2,7 +2,8 @@ ebin/
 MnesiaLibPhoneNumber/
 libphonenumber_erlang.d
 test/output
+logs/
 test/*.beam
-test/.DS_Store
+.DS_Store
 .idea/
 *.dump

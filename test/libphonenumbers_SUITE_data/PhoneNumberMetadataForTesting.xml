@@ -113,7 +113,7 @@
       <mobile>
         <nationalNumberPattern>[1-9]\d{7}</nationalNumberPattern>
         <possibleLengths national="8" localOnly="5,6"/>
-        <exampleNumber>10123456</exampleNumber>
+        <exampleNumber>77123456</exampleNumber>
       </mobile>
     </territory>
 
@@ -186,7 +186,7 @@
       <mobile>
         <nationalNumberPattern>9\d{10}|[1-3]\d{9}</nationalNumberPattern>
         <possibleLengths national="10,11"/>
-        <exampleNumber>9234567890</exampleNumber>
+        <exampleNumber>91123456789</exampleNumber>
       </mobile>
       <tollFree>
         <nationalNumberPattern>80\d{8}</nationalNumberPattern>
@@ -885,7 +885,7 @@
       <mobile>
         <nationalNumberPattern>1\d{10}</nationalNumberPattern>
         <possibleLengths national="11"/>
-        <exampleNumber>11234567890</exampleNumber>
+        <exampleNumber>12221234567</exampleNumber>
       </mobile>
       <tollFree>
         <nationalNumberPattern>800\d{7}</nationalNumberPattern>
@@ -997,7 +997,7 @@
       <mobile>
         <nationalNumberPattern>6(?:9[23]|47)\d{6}</nationalNumberPattern>
         <possibleLengths national="9"/>
-        <exampleNumber>692123456</exampleNumber>
+        <exampleNumber>639012345</exampleNumber>
       </mobile>
       <!-- 08* Numbers in Réunion are the same as those valid in France. -->
       <tollFree>
@@ -1085,30 +1085,49 @@
       </premiumRate>
     </territory>
 
-    <!-- Tristan da Cunha -->
-    <!-- Added this country, which in real life has no mobile numbers, to test
-         isPossibleNumberForType for the case where the fixed-line and mobile lengths are different,
-         there is a hole in the middle, and the type FIXED_LINE_OR_MOBILE is passed in. Also added
-         tollFree to test that this doesn't influence things. -->
-    <territory id="TA" countryCode="290" internationalPrefix="00">
+    <!-- Saint Helena -->
+    <!-- Main region for 'TA' -->
+    <!-- http://www.itu.int/oth/T02020000AF/en -->
+    <territory id="SH" mainCountryForCode="true" countryCode="290" leadingDigits="[256]"
+               internationalPrefix="00">
       <generalDesc>
-        <nationalNumberPattern>8\d{3,7}</nationalNumberPattern>
+        <nationalNumberPattern>
+          (?:
+            [256]\d|
+            8
+          )\d{3}
+        </nationalNumberPattern>
       </generalDesc>
+      <!-- There is a bug in the way the library calculates whether numbers are "possible" for a
+           region in that it uses the "main" country if multiple countries share a country calling
+           code. Trista da Cuñha shares a country calling code with Saint Helena but has only 4
+           digit numbers, so we include 4 as a possible length here. -->
+      <!-- St Helena has changed to 5 digits on October 1. 2013 -->
+      <!-- Using St Helena Tourism as the example number. -->
       <fixedLine>
-        <nationalNumberPattern>8\d{5}</nationalNumberPattern>
-        <possibleLengths national="6"/>
-        <exampleNumber>812345</exampleNumber>
+        <possibleLengths national="4,5"/>
+        <exampleNumber>22158</exampleNumber>
+        <nationalNumberPattern>
+          2(?:
+            [0-57-9]\d|
+            6[4-9]
+          )\d\d
+        </nationalNumberPattern>
       </fixedLine>
+      <!-- Effective 1st August 2015 -->
       <mobile>
-        <nationalNumberPattern>8\d{3}</nationalNumberPattern>
-        <possibleLengths national="4"/>
-        <exampleNumber>8123</exampleNumber>
+        <possibleLengths national="5"/>
+        <exampleNumber>51234</exampleNumber>
+        <nationalNumberPattern>[56]\d{4}</nationalNumberPattern>
       </mobile>
-      <tollFree>
-        <nationalNumberPattern>8\d{7}</nationalNumberPattern>
-        <possibleLengths national="8"/>
-        <exampleNumber>81234567</exampleNumber>
-      </tollFree>
+      <!-- The ITU doc reserves prefixes 260 and 261 for Information Service and prefix 263 for
+           Flexible access. We do not support these prefixes as we do not have any information
+           about their usage. -->
+      <voip>
+        <possibleLengths national="5"/>
+        <exampleNumber>26212</exampleNumber>
+        <nationalNumberPattern>262\d\d</nationalNumberPattern>
+      </voip>
     </territory>
 
     <!-- United States -->
@@ -1138,7 +1157,7 @@
       <mobile>
         <nationalNumberPattern>[13-689]\d{9}|2[0-35-9]\d{8}</nationalNumberPattern>
         <possibleLengths national="10" localOnly="7"/>
-        <exampleNumber>1234567890</exampleNumber>
+        <exampleNumber>2015550123</exampleNumber>
       </mobile>
       <noInternationalDialling>
         <!-- This range is added for testing purposes only. -->
@@ -1197,7 +1216,7 @@
       <mobile>
         <nationalNumberPattern>639\d{6}</nationalNumberPattern>
         <possibleLengths national="9"/>
-        <exampleNumber>639123456</exampleNumber>
+        <exampleNumber>639012345</exampleNumber>
       </mobile>
       <!-- Same as in France. -->
       <tollFree>
@@ -1238,7 +1257,7 @@
       <mobile>
         <nationalNumberPattern>\d{9}</nationalNumberPattern>
         <possibleLengths national="9"/>
-        <exampleNumber>123456789</exampleNumber>
+        <exampleNumber>3421234</exampleNumber>
       </mobile>
     </territory>
 
