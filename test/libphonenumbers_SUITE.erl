@@ -9,6 +9,13 @@ all() ->
 
 init_per_suite(Config) ->
   application:load(libphonenumber_erlang),
-  TestDataFile = filename:join([?config(data_dir, Config), "PhoneNumberMetadataForTesting.xml"]),
+  DataDir = proplists:get_value(data_dir, Config),
+  TestDataFile = filename:join([DataDir, "PhoneNumberMetadataForTesting.xml"]),
+  io:format("~nTest File: ~s~n", [TestDataFile]),
   Examples = libphonenumber_parser:xml_file2memory(TestDataFile),
-  io:format("~p", [Examples]).
+  PhoneExamples = maps:fold(fun(Code, V, Acc) ->
+    N = [binary_to_list(Code) ++ E || #{options := [#{example_number := E}]} <- V],
+    lists:foldl(fun(Ex, LocAcc) -> [Ex | LocAcc] end, N, Acc)
+  end, [], Examples),
+  io:format("~p", [PhoneExamples]),
+  [{phone_examples, PhoneExamples} |Config].

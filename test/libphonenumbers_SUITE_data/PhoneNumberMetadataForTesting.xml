@@ -19,6 +19,57 @@
      necessarily consistent with that of PhoneNumberMetadata.xml.
 -->
 
+<!DOCTYPE phoneNumberMetadata [
+    <!ELEMENT phoneNumberMetadata (territories)>
+    <!ELEMENT territories (territory+)>
+    <!ELEMENT territory (references?, availableFormats?, generalDesc, noInternationalDialling?,
+        fixedLine?, mobile?, pager?, tollFree?, premiumRate?,
+        sharedCost?, personalNumber?, voip?, uan?, voicemail?)>
+    <!ELEMENT references (sourceUrl+)>
+    <!ELEMENT generalDesc (nationalNumberPattern)>
+    <!ELEMENT noInternationalDialling (possibleLengths, nationalNumberPattern)>
+    <!ELEMENT fixedLine (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT mobile (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT pager (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT tollFree (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT premiumRate (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT sharedCost (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT personalNumber (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT voip (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT uan (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT voicemail (possibleLengths, exampleNumber, nationalNumberPattern)>
+    <!ELEMENT sourceUrl (#PCDATA)>
+    <!ELEMENT availableFormats (numberFormat+)>
+    <!ELEMENT nationalNumberPattern (#PCDATA)>
+    <!ELEMENT exampleNumber (#PCDATA)>
+    <!ELEMENT numberFormat (leadingDigits*, format, intlFormat*)>
+    <!ELEMENT format (#PCDATA)>
+    <!ELEMENT intlFormat (#PCDATA)>
+    <!ELEMENT leadingDigits (#PCDATA)>
+    <!ELEMENT possibleLengths EMPTY>
+
+    <!ATTLIST territory id CDATA #REQUIRED>
+    <!ATTLIST territory countryCode CDATA #REQUIRED>
+    <!ATTLIST territory mainCountryForCode (true) #IMPLIED>
+    <!ATTLIST territory leadingDigits CDATA #IMPLIED>
+    <!ATTLIST territory preferredInternationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory internationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixForParsing CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixTransformRule CDATA #IMPLIED>
+    <!ATTLIST territory preferredExtnPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixFormattingRule CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixOptionalWhenFormatting (true) #IMPLIED>
+    <!ATTLIST territory carrierCodeFormattingRule CDATA #IMPLIED>
+    <!ATTLIST territory mobileNumberPortableRegion (true) #IMPLIED>
+    <!ATTLIST possibleLengths national CDATA #REQUIRED>
+    <!ATTLIST possibleLengths localOnly CDATA #IMPLIED>
+    <!ATTLIST numberFormat nationalPrefixFormattingRule CDATA #IMPLIED>
+    <!ATTLIST numberFormat nationalPrefixOptionalWhenFormatting (true) #IMPLIED>
+    <!ATTLIST numberFormat carrierCodeFormattingRule CDATA #IMPLIED>
+    <!ATTLIST numberFormat pattern CDATA #REQUIRED>
+]>
+
 <phoneNumberMetadata>
   <territories>
     <!-- Andorra -->

@@ -22,7 +22,7 @@ init([]) ->
 -spec load_countryphonenumbers_rules() -> ok.
 
 load_countryphonenumbers_rules() ->
-	PhoneNumberMetadata = code:priv_dir(libphonenumber_erlang) ++ ?FILE_PHONE_PHONE_FORMATS,
+	PhoneNumberMetadata = code:priv_dir(libphonenumber_erlang) ++ "/" ++ ?FILE_PHONE_PHONE_FORMATS,
 	Rules = libphonenumber_parser:xml_file2memory(PhoneNumberMetadata),
 	maps:fold(
 		fun(Code, CodeRulesInfo, _) ->
