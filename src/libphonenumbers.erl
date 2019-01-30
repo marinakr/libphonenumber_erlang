@@ -70,7 +70,7 @@ rules_for_codepairs([{Code, Phone} | Pairs], #{errors := Errors} = ValidationLog
   if IsValid ->
     ValidationResult;
     true ->
-    rules_for_codepairs(Pairs, ValidationLog#{errors => Errors ++ ResErrors})
+    rules_for_codepairs(Pairs, ValidationLog#{errors => ResErrors})
   end.
 
 %% -------------------------------------------------------------------

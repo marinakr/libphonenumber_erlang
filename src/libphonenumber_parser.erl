@@ -25,21 +25,17 @@
 %% And return map stored in include/country_phone_rules.hrl
 %% @end
 %% -------------------------------------------------------------------
--spec xml_file2memory(list()) -> ok | error | not_implemented.
+-spec xml_file2memory(list()) -> maps:map() | error.
 
-xml_file2memory(?FILE_PHONE_PHONE_FORMATS = FileName) ->
-  FullFilePath = code:priv_dir(libphonenumber_erlang) ++ FileName,
-  case xmerl_scan:file(FullFilePath, [{validation,true}]) of
+xml_file2memory(FileName) ->
+  case xmerl_scan:file(FileName) of
     {Xml, _} ->
       #xmlElement{content = [_, TerrirtoriesEl, _]} = Xml,
       TerrirtoriesInfo = TerrirtoriesEl#xmlElement.content,
       parce_country_name(TerrirtoriesInfo);
     _ ->
       error
-  end;
-
-xml_file2memory(_) ->
-  not_implemented.
+  end.
 
 %% --------------------------------------------------------------------------
 %% @private
@@ -72,9 +68,10 @@ parce_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when i
     id = Id,
     code = Code,
     possible_length_regexp = LengthInfo,
-    pattern = Pattern} = CountryPhoneInfo,
+    pattern = Pattern,
+    options = Options} = CountryPhoneInfo,
   CountryInfoMap = #{
-    id => Id, name => Name, pattern => Pattern, lengths => format_rules(LengthInfo)},
+    id => Id, name => Name, pattern => Pattern, lengths => format_rules(LengthInfo), options => Options},
   PrevCodes = maps:get(Code, Acc, []),
   NewAcc =  maps:put(Code, [CountryInfoMap | PrevCodes], Acc),
   parce_country_name(undefined, Rest, NewAcc);
@@ -117,8 +114,13 @@ parse_mobile_content([#xmlElement{name = mobile, content = Content} | Rest], Sta
   #phone_pattern{possible_length_regexp = Ls} = State,
   #{pattern := Pattern,
     length := LengthAttributes} = get_pattern_and_length(Content),
+    ExampleNumber = get_example_number(Content),
   [NewLength] = parse_possible_length(LengthAttributes, Ls),
-  NewState = State#phone_pattern{possible_length_regexp = NewLength, pattern = Pattern},
+  NewState = State#phone_pattern{
+      possible_length_regexp = NewLength,
+      pattern = Pattern,
+      options = if ExampleNumber == null -> []; true -> [#{example_number => ExampleNumber}] end
+      },
   parse_mobile_content(Rest, NewState);
 
 parse_mobile_content([_ | Rest], State) ->
@@ -152,6 +154,18 @@ get_pattern_and_length([#xmlElement{name = nationalNumberPattern, content = C} |
 
 get_pattern_and_length([_|Rest], Acc) ->
   get_pattern_and_length(Rest, Acc).
+
+%% -------------------------------------------------------------------
+%% @private
+%% Get example of valid phone, only for test
+%% -------------------------------------------------------------------
+get_example_number([]) -> null;
+
+get_example_number([#xmlElement{name = exampleNumber, content = [#xmlText{value = ExampleNumber}]} | _]) ->
+  ExampleNumber;
+
+get_example_number([_E|Rest]) ->
+  get_example_number(Rest).
 
 %% -------------------------------------------------------------------
 %% @private

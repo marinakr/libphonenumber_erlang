@@ -4,7 +4,7 @@
 %%%-------------------------------------------------------------------
 -author("marinakr").
 
--define(FILE_PHONE_PHONE_FORMATS, "/PhoneNumberMetadata.xml").
+-define(FILE_PHONE_PHONE_FORMATS, "PhoneNumberMetadata.xml").
 -define(REGEXP_PHONE, <<"^\\+[0-9]{8,15}$">>).
 
 -record(countryphones, {code, code_rules = []}).
