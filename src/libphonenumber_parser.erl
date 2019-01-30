@@ -27,9 +27,8 @@
 %% -------------------------------------------------------------------
 -spec xml_file2memory(list()) -> ok | error | not_implemented.
 
-xml_file2memory(?FILE_PHONE_PHONE_FORMATS = FileName) ->
-  FullFilePath = code:priv_dir(libphonenumber_erlang) ++ FileName,
-  case xmerl_scan:file(FullFilePath, [{validation,true}]) of
+xml_file2memory(FileName) ->
+  case xmerl_scan:file(FileName, [{validation,true}]) of
     {Xml, _} ->
       #xmlElement{content = [_, TerrirtoriesEl, _]} = Xml,
       TerrirtoriesInfo = TerrirtoriesEl#xmlElement.content,
@@ -117,8 +116,12 @@ parse_mobile_content([#xmlElement{name = mobile, content = Content} | Rest], Sta
   #phone_pattern{possible_length_regexp = Ls} = State,
   #{pattern := Pattern,
     length := LengthAttributes} = get_pattern_and_length(Content),
+    ExampleNumber = get_example_number(),
   [NewLength] = parse_possible_length(LengthAttributes, Ls),
-  NewState = State#phone_pattern{possible_length_regexp = NewLength, pattern = Pattern},
+  NewState = State#phone_pattern{
+    possible_length_regexp = NewLength,
+    pattern = Pattern,
+    options = [#{example_number => ExampleNumber}]},
   parse_mobile_content(Rest, NewState);
 
 parse_mobile_content([_ | Rest], State) ->
@@ -152,6 +155,18 @@ get_pattern_and_length([#xmlElement{name = nationalNumberPattern, content = C} |
 
 get_pattern_and_length([_|Rest], Acc) ->
   get_pattern_and_length(Rest, Acc).
+
+%% -------------------------------------------------------------------
+%% @private
+%% Get example of valid phone, only for test
+%% -------------------------------------------------------------------
+get_example_number([]) -> null;
+
+get_example_number([#xmlElement{name = exampleNumber, content = #xmlText{value = ExampleNumber}} | Rest]) ->
+  ExampleNumber;
+
+get_example_number([_|Rest]) ->
+  get_example_number(Rest).
 
 %% -------------------------------------------------------------------
 %% @private
