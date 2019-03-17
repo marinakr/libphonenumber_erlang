@@ -5,7 +5,7 @@
 -module(libphonenumbers).
 -author("marinakr").
 
--include_lib("include/phonenumbers.hrl").
+-include_lib("libphonenumber_erlang/include/phonenumbers.hrl").
 
 %% API
 -export([
