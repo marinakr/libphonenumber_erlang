@@ -7,3 +7,4 @@ test/*.beam
 .DS_Store
 .idea/
 *.dump
+_build/
