@@ -7,7 +7,7 @@
 -define(FILE_PHONE_PHONE_FORMATS, "PhoneNumberMetadata.xml").
 -define(REGEXP_PHONE, <<"^\\+[0-9]{8,15}$">>).
 
--record(countryphones, {code, code_rules = []}).
+-define(ETS_TABLE, libphonenumber_erlang_registry).
 
 -record(phone_pattern, {
   code = undefined,
@@ -23,3 +23,9 @@
   part}).
 
 -record(code_set, {id, lengths = [], name, pattern, metadata}).
+
+-record(countryphones, {
+  code :: binary(),
+  code_rules = [] :: list(#code_set{})
+}).
+

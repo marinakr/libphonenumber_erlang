@@ -1,5 +1,4 @@
+#!/usr/bin/env bash
 make
-MNESIADIR='"MnesiaLibPhoneNumber"'
-echo libphonenumber_erlang run with $MNESIADIR
-exec erl -pa ebin/ deps/*/ebin -s libphonenumber_erlang_app -name libphonenumber_erlang@localhost \
-	-mnesia dir $MNESIADIR
+echo libphonenumber_erlang starting
+exec erl -pa ./ebin ./src -name libphonenumber_erlang@localhost -eval "application:start(tools), application:start(libphonenumber_erlang)"

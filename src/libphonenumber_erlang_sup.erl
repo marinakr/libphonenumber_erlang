@@ -10,7 +10,7 @@ start_link() ->
 	supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-	init_mnesia(),
+	init_ets(),
 	load_countryphonenumbers_rules(),
 
 	Procs = [],
@@ -27,22 +27,18 @@ load_countryphonenumbers_rules() ->
 	maps:fold(
 		fun(Code, CodeRulesInfo, _) ->
 			CodeRules = [#code_set{id = Id, lengths = Length, name = Name, pattern = Pattern} ||
-			  #{id := Id, lengths := Length, pattern := Pattern, name := Name} <- CodeRulesInfo],
+				#{id := Id, lengths := Length, pattern := Pattern, name := Name} <- CodeRulesInfo],
 			Record = #countryphones{
 				code = Code,
 				code_rules = CodeRules},
-			mnesia:dirty_write(Record)
+			ets:insert(?ETS_TABLE, Record)
 		end, #{}, Rules),
 	ok.
 
 %% -------------------------------------------------------------------
 %% @private
 %% -------------------------------------------------------------------
--spec init_mnesia() -> ok.
-
-init_mnesia() ->
-	mnesia:create_schema([node()]),
-	mnesia:start(),
-	mnesia:create_table(countryphones,
-		[{attributes, record_info(fields, countryphones)}]),
-	ok.
+init_ets() ->
+	ets:new(?ETS_TABLE,
+		[named_table, public, ordered_set, {keypos, 2},
+			{write_concurrency, true}, {read_concurrency, true}]).

@@ -65,7 +65,7 @@ rules_for_codepairs([], #{errors := Errors} = ValidationLog) ->
   ValidationLog#{valid => false, errors => [#{"NO PAIRS" => "Finished"} | Errors]};
 
 rules_for_codepairs([{Code, Phone} | Pairs], ValidationLog) ->
-  Rules = mnesia:dirty_read(countryphones, Code),
+  Rules = ets:lookup(?ETS_TABLE, Code),
   #{valid := IsValid, errors := ResErrors} = ValidationResult = rules_for_code(Rules, ValidationLog, {Code, Phone}),
   if IsValid ->
     ValidationResult;
