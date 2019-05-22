@@ -35,9 +35,9 @@ is_mobile_valid_phone_test(Config) ->
 
 mobile_phone_number_info_test(_Config) ->
   #{country_metadata :=
-     #{code := <<"380">>,id := <<"UA">>,name := <<"Ukraine">>},
+     #{code := <<"380">>,id := <<"UA">>,name := <<"Ukraine (UA)">>},
      phone := <<"+380967112244">>,valid := true} = libphonenumbers:mobile_phone_number_info(<<"+380967112244">>),
-  #{country_metadata := #{code := <<"1">>, id := <<"US">>, name := <<"United States">>},
+  #{country_metadata := #{code := <<"1">>, id := <<"US">>, name := <<"United States (US)">>},
     errors := [],phone := <<"+14088881406">>, valid := true} = libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).
 
 end_per_suite(_Config) -> [].
