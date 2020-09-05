@@ -1,5 +1,5 @@
 # libphonenumber_erlang
-Hello
+
 Erlang version of [libphonenumber](https://github.com/googlei18n/libphonenumber)
 by Google.
 Usage:
