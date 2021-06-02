@@ -217,6 +217,9 @@ formath_length([$- | Rest], CLenght = #length{is_range = true}) ->
 formath_length([$]], #length{is_range = true, min = Min, max = Max}) ->
   [{list_to_integer(Min), list_to_integer(Max)}];
 
+formath_length([$],$, | Rest], #length{is_range = true, min = Min, max = Max}) ->
+    [{list_to_integer(Min), list_to_integer(Max)}] ++ formath_length(Rest, #length{});
+
 formath_length([Symb | Rest], CLenght = #length{is_range = true}) ->
   #length{part = Part, min = Min, max = Max} = CLenght,
   case Part of
