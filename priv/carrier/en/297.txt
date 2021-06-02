@@ -12,20 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-297290|Digicel
+29729|Digicel
 29756|SETAR
 29759|SETAR
-297630|Digicel
-297640|Digicel
-297641|Digicel
-297642|Digicel
+29760|SETAR
+29762|MIO Wireless
+29763|MIO Wireless
+29764|Digicel
 29766|SETAR
-29769|SETAR
+297690|SETAR
+297699|SETAR
 29773|Digicel
 29774|Digicel
-297770|SETAR
-297777|SETAR
-297995|SETAR
-297996|SETAR
-297997|SETAR
-297998|SETAR
+29777|SETAR

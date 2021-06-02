@@ -18,19 +18,48 @@
 # New World Mobility is known as Sun Mobile now.
 # Prefix 5549 is assigned for Government use, no information on the carrier.
 # Prefix 624, 683, 69[68] and 905 which were previously assigned to CM Mobile is
-# now on hold, so carrier details are removed for these prefixes.
+# now on hold, so carrier details are removed for these prefixes. Prefix 9057 is
+# assigned to HKT based on user report.
 
-8524600|China Mobile
-8524601|China Mobile
-8524602|China Mobile
-8524603|China Mobile
-8524604|China Mobile
-8524605|China Mobile
-8524606|China Mobile
+852460|China Unicom
+8524607|Multibyte
+8524610|Sun Mobile
+8524611|Sun Mobile
+8524612|Sun Mobile
+8524613|HKT
+8524614|Sun Mobile
+8524615|China Unicom
+8524616|China Unicom
+8524620|China Mobile
+8524621|China Mobile
+8524622|China Mobile
+8524623|China Mobile
+8524624|China Mobile
+8524625|SmarTone
+8524626|SmarTone
+8524627|SmarTone
+8524628|SmarTone
+8524629|SmarTone
+852463|China Mobile
 8524640|China Mobile
+8524641|SmarTone
+8524642|SmarTone
+8524643|SmarTone
+8524644|SmarTone
+8524645|SmarTone
 8524647|Sun Mobile
 8524648|Multibyte
 8524649|CITIC
+8524650|China Unicom
+8524651|China Unicom
+8524652|China Unicom
+8524653|China Unicom
+8524654|HKT
+8524655|HKT
+8524656|HKT
+8524657|HKT
+8524658|HKT
+852466|China Mobile
 852510|China Mobile
 852511|Sun Mobile
 852512|China Mobile
@@ -44,22 +73,29 @@
 852520|HKT
 852521|HKT
 852522|China Mobile
-852523|SmarTone
 8525230|HKT
 8525231|HKT
 8525232|HKT
 8525233|HKT
 8525234|Lycamobile
 8525235|21Vianet
+8525236|SmarTone
+8525237|SmarTone
+8525238|SmarTone
+8525239|SmarTone
 852524|HKT
 852526|China Mobile
 852527|HKT
-852528|SmarTone
 8525280|Truphone
 8525281|Sun Mobile
 8525282|Sun Mobile
 8525283|Multibyte
-8525289|263.net
+8525284|SmarTone
+8525285|SmarTone
+8525286|SmarTone
+8525287|SmarTone
+8525288|SmarTone
+8525289|3
 852529|HKT
 852530|China Mobile
 852531|China Mobile
@@ -110,23 +146,20 @@
 8525703|Sun Mobile
 8525704|Multibyte
 8525705|Multibyte
-8525706|HKT
+8525706|Hong Kong Broadband Network
 8525707|China Mobile
 8525708|China Mobile
 8525709|CITIC
-8525710|HKT
-8525711|HKT
-8525712|HKT
-8525713|HKT
-8525714|HKT
-8525715|HKT
-8525716|HKT
-8525717|HKT
+852571|HKT
 8525718|Lycamobile
 8525719|Lycamobile
 852572|SmarTone
-8525730|Tai Tung
-852574|SmarTone
+852573|Tai Tung
+8525740|SmarTone
+8525741|SmarTone
+8525742|SmarTone
+8525743|SmarTone
+8525744|SmarTone
 8525745|Multibyte
 8525746|Multibyte
 8525747|Multibyte
@@ -158,23 +191,23 @@
 852607|3
 852608|3
 852609|China Mobile
+85261|HKT
 852610|3
 852611|SmarTone
-852612|HKT
-852613|HKT
-852614|HKT
 852615|China Mobile
-852616|HKT
-852617|HKT
-852618|HKT
 852619|3
 852620|3
 852621|China Mobile
 852622|China Mobile
 852623|China Mobile
 852625|HKT
-8526260|Easco
+8526260|3
 8526261|Webbing
+8526263|China Mobile
+8526264|China Mobile
+8526265|China Mobile
+8526266|China Mobile
+8526267|China Mobile
 852627|3
 852628|HKT
 852629|HKT
@@ -184,6 +217,9 @@
 852633|3
 852634|3
 852635|China Mobile
+8526360|Sun Mobile
+8526361|China Unicom
+8526362|China Telecom Global Limited (CTG)
 852637|HKT
 852638|HKT
 852639|HKT
@@ -192,7 +228,7 @@
 852642|HKT
 852643|China Mobile
 852644|HKT
-852645|CITIC
+852645|China Mobile
 852646|SmarTone
 852647|3
 852648|China Mobile
@@ -213,6 +249,7 @@
 852663|China Unicom
 852664|China Mobile
 852665|HKT
+852666|China Unicom
 852667|China Mobile
 852668|3
 852669|HKT
@@ -241,10 +278,21 @@
 852695|China Mobile
 852697|HKT
 852699|China Mobile
+852707|SmarTone
+852708|HKT
+8528480|Handy
+8528481|Sun Mobile
+8528485|SmarTone
+8528486|SmarTone
+8528487|SmarTone
+8528488|SmarTone
+8528489|SmarTone
+852849|China Mobile
 852901|SmarTone
 852902|HKT
 852903|HKT
 852904|3
+8529057|HKT
 852906|China Mobile
 852907|HKT
 852908|HKT
@@ -267,14 +315,8 @@
 852926|HKT
 852927|HKT
 852928|3
+852929|China Unicom
 8529290|Multibyte
-8529293|China Unicom
-8529294|China Unicom
-8529295|China Unicom
-8529296|China Unicom
-8529297|China Unicom
-8529298|China Unicom
-8529299|China Unicom
 852930|HKT
 852931|SmarTone
 852932|3

@@ -15,11 +15,14 @@
 # 1994 by Belgacom, following the launch of the first mobile network.Proximus is
 # a subsidiary of Belgacom.
 # Mobistar has re-branded as Orange on 9 May 2016.
-# Unleashed has 3 brands Mobile Vikings, JIM Mobile and Stievie. Prefix 456
-# phone numbers are mentioned in contact-us page of JIM mobile carrier. So it is
-# more likely that it is assigned to 'JIM Mobile'
+# Unleashed has 2 mobile brands: Mobile Vikings and JIM Mobile. Both of these
+# brands distribute numbers with prefix 456.
+# VOO is brand name of mobile network of Nethys:
+# http://www.voo.be/en/gsm/abonnement-gsm/
 
-32456|JIM Mobile
+3245001|Gateway Communications
+32455|VOO
+32456|Mobile Vikings/JIM Mobile
 32460|Proximus
 324618|N.M.B.S.
 324630|TISMI BV
@@ -30,6 +33,7 @@
 324655|Lycamobile
 324656|Lycamobile
 324657|Lycamobile
+324658|Lycamobile
 324659|Lycamobile
 324660|Lycamobile
 324661|Lycamobile
@@ -40,17 +44,24 @@
 324666|Vectone
 324667|Vectone
 324669|Voxbone SA
+324670|Telenet
 324671|Join Experience Belgium
 324672|Join Experience Belgium
+32467306|Telenet
+324674|Febo Telecom
 324676|Lycamobile
-324681|Telenet
-324682|Telenet
-324683|Telenet
-324684|Telenet
-324685|Telenet
+324677|Lycamobile
+324678|Lycamobile
+324679|Interactive Digital Media GmbH
+32468|Telenet
+324686|OnOff Télécom SASU
 324687|Premium Routing GmbH
 324688|Premium Routing GmbH
+324689|Febo Telecom
 3247|Proximus
+324805|Voyacom SPRL
+324807|MessageBird BV
+324809|Ericsson NV
 32483|Telenet
 32484|Telenet
 32485|Telenet
