@@ -30,37 +30,37 @@
 xml_file2memory(FileName) ->
   case xmerl_scan:file(FileName) of
     {Xml, _} ->
-      #xmlElement{content = [_, TerrirtoriesEl, _]} = Xml,
-      TerrirtoriesInfo = TerrirtoriesEl#xmlElement.content,
-      parce_country_name(TerrirtoriesInfo);
+      #xmlElement{content = [_, TerritoriesEl, _]} = Xml,
+      TerritoriesInfo = TerritoriesEl#xmlElement.content,
+      parse_country_name(TerritoriesInfo);
     _ ->
       error
   end.
 
 %% --------------------------------------------------------------------------
 %% @private
-%% This block of code math name of country and block of rules for territory
+%% This block of code match name of country and block of rules for territory
 %% --------------------------------------------------------------------------
--spec parce_country_name(list()) -> maps:map().
+-spec parse_country_name(list()) -> maps:map().
 
-parce_country_name(Elements) ->
-  parce_country_name(undefined, Elements, #{}).
+parse_country_name(Elements) ->
+  parse_country_name(undefined, Elements, #{}).
 
--spec parce_country_name(Name, XmlDoc, Acc) -> Res when
+-spec parse_country_name(Name, XmlDoc, Acc) -> Res when
   Name :: undefined | binary,
   XmlDoc :: list(),
   Acc :: maps:map(),
   Res :: maps:map().
 
-parce_country_name(_, [], Acc) ->
+parse_country_name(_, [], Acc) ->
   Acc;
 
-parce_country_name(undefined, [C = #xmlComment{} | Rest], Acc) ->
+parse_country_name(undefined, [C = #xmlComment{} | Rest], Acc) ->
   Name = C#xmlComment.value,
-  NromalName = trim_first_last_whitespaces(Name),
-  parce_country_name(unicode:characters_to_binary(NromalName, utf8), Rest, Acc);
+  NormalName = trim_first_last_whitespaces(Name),
+  parse_country_name(unicode:characters_to_binary(NormalName, utf8), Rest, Acc);
 
-parce_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when is_binary(Name) ->
+parse_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when is_binary(Name) ->
   #xmlElement{name = territory, attributes = Attrs, content = Content} = E,
   PhonePattern = parse_attributes(Attrs, #phone_pattern{}),
   CountryPhoneInfo = parse_mobile_content(Content, PhonePattern),
@@ -74,10 +74,10 @@ parce_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when i
     id => Id, name => Name, pattern => Pattern, lengths => format_rules(LengthInfo), options => Options},
   PrevCodes = maps:get(Code, Acc, []),
   NewAcc =  maps:put(Code, [CountryInfoMap | PrevCodes], Acc),
-  parce_country_name(undefined, Rest, NewAcc);
+  parse_country_name(undefined, Rest, NewAcc);
 
-parce_country_name(State, [_H|Rest], Acc) ->
-  parce_country_name(State, Rest, Acc).
+parse_country_name(State, [_H|Rest], Acc) ->
+  parse_country_name(State, Rest, Acc).
 
 %% -------------------------------------------------------------------
 %% @private
@@ -198,9 +198,9 @@ format_rules([]) ->
   no_rules;
 
 format_rules(Length) ->
-  formath_length(Length, #length{}).
+  format_length(Length, #length{}).
 
--spec formath_length(LengthText, Length) -> Result when
+-spec format_length(LengthText, Length) -> Result when
   LengthText :: list(),
   Length :: #length{},
   Result :: {Min, Max},
@@ -208,29 +208,32 @@ format_rules(Length) ->
   Max :: integer().
 
 %% when length in [1-9] format
-formath_length([$[ | Rest], CLenght) ->
-  formath_length(Rest, CLenght#length{is_range = true, part = 1});
+format_length([$[ | Rest], CLength) ->
+  format_length(Rest, CLength#length{is_range = true, part = 1});
 
-formath_length([$- | Rest], CLenght = #length{is_range = true}) ->
-  formath_length(Rest, CLenght#length{is_range = true, part = 2});
+format_length([$- | Rest], CLength = #length{is_range = true}) ->
+  format_length(Rest, CLength#length{is_range = true, part = 2});
 
-formath_length([$]], #length{is_range = true, min = Min, max = Max}) ->
+format_length([$]], #length{is_range = true, min = Min, max = Max}) ->
   [{list_to_integer(Min), list_to_integer(Max)}];
 
-formath_length([Symb | Rest], CLenght = #length{is_range = true}) ->
-  #length{part = Part, min = Min, max = Max} = CLenght,
+format_length([$],$, | Rest], #length{is_range = true, min = Min, max = Max}) ->
+    [{list_to_integer(Min), list_to_integer(Max)}] ++ format_length(Rest, #length{});
+
+format_length([Symb | Rest], CLength = #length{is_range = true}) ->
+  #length{part = Part, min = Min, max = Max} = CLength,
   case Part of
     1 ->
-      formath_length(Rest, CLenght#length{min = Min ++ [Symb]});
+      format_length(Rest, CLength#length{min = Min ++ [Symb]});
     2 ->
-      formath_length(Rest, CLenght#length{max = Max ++ [Symb]})
+      format_length(Rest, CLength#length{max = Max ++ [Symb]})
   end;
 
 %% when length like 9 or 8,11
-formath_length(Length, #length{is_range = false}) ->
+format_length(Length, #length{is_range = false}) ->
   BLen = list_to_binary(Length),
-  AvailiableLength = binary:split(BLen, <<",">>, [global]),
-  [{binary_to_integer(M), binary_to_integer(M)} || M <- AvailiableLength].
+  AvailableLength = binary:split(BLen, <<",">>, [global]),
+  [{binary_to_integer(M), binary_to_integer(M)} || M <- AvailableLength].
 
 %% -------------------------------------------------------------------
 %% @private

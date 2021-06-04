@@ -17,14 +17,7 @@
 354385|Síminn
 354388|IMC
 354389|IMC
-354611|Tal
-354612|Tal
-354613|Tal
-354614|Tal
-354615|Vodafone
-354616|Vodafone
-354617|Vodafone
-354618|Vodafone
+35461|Vodafone
 35462|Vodafone
 354630|IMC
 354632|Tismi
@@ -47,7 +40,6 @@
 354686|Vodafone
 354687|Vodafone
 354688|Vodafone
-354689|Vodafone
 35469|Vodafone
 354750|Síminn
 354755|Síminn
@@ -55,10 +47,7 @@
 35476|Nova
 35477|Nova
 35478|Nova
-354790|Nova
-354791|Nova
-354792|Nova
-354793|Nova
+35479|Nova
 35482|Vodafone
 35483|Síminn
 35484|Síminn
