@@ -9,6 +9,11 @@ cd libphonenumber_erlang/
  make
  ./start.sh
  ```
+ Run tests:
+ ```
+ make
+ ct_run -pa ebin
+ ```
  Functions examples:
  ```
 libphonenumbers:is_mobile_valid_phone(<<"+380988562241">>).
