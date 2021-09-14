@@ -9,7 +9,7 @@
 
 %% API
 -export([
-  is_mobile_valid_phone/1,
+  is_mobile_phone_valid/1,
   mobile_phone_number_info/1
   ]).
 
@@ -22,11 +22,11 @@
 %% @private
 %% Check msisdn is match rules in include file
 %% -------------------------------------------------------------------
--spec is_mobile_valid_phone(Msisdn) -> Result when
+-spec is_mobile_phone_valid(Msisdn) -> Result when
   Msisdn :: binary(),
   Result :: boolean().
 
-is_mobile_valid_phone(Msisdn) ->
+is_mobile_phone_valid(Msisdn) ->
   maps:get(valid, mobile_phone_number_info(Msisdn)).
 
 %% -------------------------------------------------------------------
