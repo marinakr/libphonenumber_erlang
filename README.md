@@ -12,22 +12,22 @@ cd libphonenumber_erlang/
  Run tests:
  ```
  make
- ct_run -pa ebin
+ mkdir -p test/output && ct_run -pa ebin -logdir test/output
  ```
  Functions examples:
  ```
-libphonenumbers:is_mobile_valid_phone(<<"+380988562241">>).
+> libphonenumbers:is_mobile_phone_valid(<<"+380988562241">>).
 true
 
-libphonenumbers:is_mobile_valid_phone(<<"+380338560241">>).
+> libphonenumbers:is_mobile_phone_valid(<<"+380338560241">>).
 false
 
-libphonenumbers:mobile_phone_number_info(<<"+380967112244">>).
+> libphonenumbers:mobile_phone_number_info(<<"+380967112244">>).
 #{country_metadata =>
       #{code => <<"380">>,id => <<"UA">>,name => <<"Ukraine">>},
   phone => <<"+380967112244">>,valid => true}
 
-libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).    
+> libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).    
   #{country_metadata =>
         #{code => <<"1">>,id => <<"US">>,name => <<"United States">>},
     errors => [],phone => <<"+14088881406">>,valid => true}
