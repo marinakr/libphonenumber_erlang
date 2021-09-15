@@ -2,6 +2,9 @@
 
 Erlang version of [libphonenumber](https://github.com/googlei18n/libphonenumber)
 by Google.
+
+Elixir version of [libphonenumber](https://github.com/marinakr/libphonenumber_elixir) available [![Hex.pm](https://img.shields.io/hexpm/v/ecto.svg)](https://hex.pm/packages/libphonenumber)
+
 Usage:
 
 ```

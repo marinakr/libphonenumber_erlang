@@ -7,8 +7,9 @@
   {mod, {libphonenumber_erlang_app, []}},
   {licenses,["Apache 2.0"]},
   {links,[
-    {"Github","https://github.com/marinakr/libphonenumber_erlang"},
-    {"Github", "https://github.com/googlei18n/libphonenumber"}]},
+    {"Github (erlang)","https://github.com/marinakr/libphonenumber_erlang"},
+    {"Github (elixir)","https://github.com/marinakr/libphonenumber_elixir"},
+    {"Github (google origin)", "https://github.com/googlei18n/libphonenumber"}]},
   {registered, []},
   {applications, [kernel, stdlib, tools]},
   {env, []}]}.
