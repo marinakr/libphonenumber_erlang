@@ -40,4 +40,11 @@ mobile_phone_number_info_test(_Config) ->
   #{country_metadata := #{code := <<"1">>, id := <<"US">>, name := <<"United States (US)">>},
     errors := [],phone := <<"+14088881406">>, valid := true} = libphonenumbers:mobile_phone_number_info(<<"+14088881406">>).
 
+short_phone_number_info_test(_Config) ->
+  #{country_metadata :=
+     #{code := <<"">>,id := <<"US">>,name := <<"United States (US)">>},
+     phone := <<"112">>,valid := true} = libphonenumbers:short_phone_number_info(<<"US">>, <<"112">>),
+  #{country_metadata := #{code := <<"">>, id := <<"US">>, name := <<"United States (US)">>},
+    errors := [],phone := <<"113">>, valid := true} = libphonenumbers:short_phone_number_info(<<"US">>, <<"112">>).
+
 end_per_suite(_Config) -> [].
