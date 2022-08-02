@@ -63,7 +63,7 @@ parse_country_name(undefined, [C = #xmlComment{} | Rest], Acc) ->
 parse_country_name(Name, [E = #xmlElement{name = territory} | Rest], Acc) when is_binary(Name) ->
   #xmlElement{name = territory, attributes = Attrs, content = Content} = E,
   PhonePattern = parse_attributes(Attrs, #phone_pattern{}),
-  CountryPhoneInfo = parse_mobile_content(Content, PhonePattern),
+  CountryPhoneInfo = parse_number_content(Content, PhonePattern),
   #phone_pattern{
     id = Id,
     code = Code,
@@ -101,16 +101,25 @@ parse_attributes([_ | Rest], State) ->
 
 %% -------------------------------------------------------------------
 %% @private
-%% Parse country mobile possible length
+%% Parse country number possible length
 %% -------------------------------------------------------------------
--spec parse_mobile_content(Elements, State) -> State when
+-spec parse_number_content(Elements, State) -> State when
   Elements :: list(#xmlElement{}),
   State :: #phone_pattern{}.
 
-parse_mobile_content([], State) ->
+parse_number_content([], State) ->
   State;
 
-parse_mobile_content([#xmlElement{name = mobile, content = Content} | Rest], State) ->
+parse_number_content([#xmlElement{name = mobile, content = Content} | Rest], State) ->
+  parse_element_content(Content, Rest, State);
+
+parse_number_content([#xmlElement{name = emergency, content = Content} | Rest], State) ->
+  parse_element_content(Content, Rest, State);
+
+parse_number_content([_ | Rest], State) ->
+  parse_number_content(Rest, State).
+
+parse_element_content(Content, Xml, State) ->
   #phone_pattern{possible_length_regexp = Ls} = State,
   #{pattern := Pattern,
     length := LengthAttributes} = get_pattern_and_length(Content),
@@ -121,11 +130,7 @@ parse_mobile_content([#xmlElement{name = mobile, content = Content} | Rest], Sta
       pattern = Pattern,
       options = if ExampleNumber == null -> []; true -> [#{example_number => ExampleNumber}] end
       },
-  parse_mobile_content(Rest, NewState);
-
-parse_mobile_content([_ | Rest], State) ->
-  parse_mobile_content(Rest, State).
-
+  parse_number_content(Xml, NewState).
 %% -------------------------------------------------------------------
 %% @private
 %% Get possible length and pattern by one run
@@ -169,7 +174,7 @@ get_example_number([_E|Rest]) ->
 
 %% -------------------------------------------------------------------
 %% @private
-%% Parse country mobile possible length from attributes
+%% Parse country number possible length from attributes
 %% -------------------------------------------------------------------
 -spec parse_possible_length(Attrs, Acc) -> ResAcc when
   Attrs :: list(#xmlAttribute{}),

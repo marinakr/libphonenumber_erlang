@@ -5,9 +5,15 @@
 -author("marinakr").
 
 -define(FILE_PHONE_PHONE_FORMATS, "PhoneNumberMetadata.xml").
--define(REGEXP_PHONE, <<"^\\+[0-9]{8,15}$">>).
+-define(FILE_SHORT_PHONE_FORMATS, "ShortNumberMetadata.xml").
+-define(REGEXP_PHONE, <<"^\\+[0-9]{3,15}$">>).
+-define(PLUS_CHAR_PATTERN, <<"[+\uFF0B]+">>).
+-define(VALID_START_CHAR_PATTERN, <<"[+\uFF0B\\p{Nd}]">>).
+-define(SECOND_NUMBER_START_PATTERN, <<"[\\\\/] *x">>).
+-define(UNWANTED_END_CHARS_PATTERN, <<"[[\\P{N}&&\\P{L}]&&[^#]]+$">>).
 
--define(ETS_TABLE, libphonenumber_erlang_registry).
+-define(ETS_TABLE, libphonenumber_erlang_mobile_registry).
+-define(ETS_TABLE_SHORT, libphonenumber_erlang_short_registry).
 
 -record(phone_pattern, {
   code = undefined,
