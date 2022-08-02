@@ -61,7 +61,7 @@ is_emergency_number(Code, Number) ->
 
 short_phone_number_info(Code, Phone) ->
   Pairs = [{Code, Phone}],
-  rules_for_codepairs(?ETS_TABLE_SHORT, Pairs, #{valid => false, errors => []}).
+  rules_for_codepairs(emergency, ?ETS_TABLE_SHORT, Pairs, #{valid => false, errors => []}).
 
 %% -------------------------------------------------------------------
 %% @private
@@ -81,7 +81,7 @@ mobile_phone_number_info(<<"+", C1:1/binary, C2:1/binary, C3:1/binary, Phone3N/b
     {Code3N, Phone3N},
     {Code2N, Phone2N},
     {Code1N, Phone1N}],
-  rules_for_codepairs(?ETS_TABLE, Pairs, #{valid => false, errors => []});
+  rules_for_codepairs(mobile, ?ETS_TABLE, Pairs, #{valid => false, errors => []});
 
 mobile_phone_number_info(_) ->
   #{valid => false, errors => [#{"NO CODE" => <<"Phone number should starts with '+'">>}]}.
@@ -90,43 +90,45 @@ mobile_phone_number_info(_) ->
 %% @private
 %% check does phone pairs match any rule
 %% -------------------------------------------------------------------
--spec rules_for_codepairs(Table, Pairs, ValidationLog) ->  Result when
+-spec rules_for_codepairs(PhoneType, Table, Pairs, ValidationLog) ->  Result when
+  PhoneType  :: atom(),
   Table :: string(),
   Pairs :: list(),
   ValidationLog :: maps:map(),
   Result :: maps:map().
 
-rules_for_codepairs(_, [], #{errors := Errors} = ValidationLog) ->
+rules_for_codepairs(_, _, [], #{errors := Errors} = ValidationLog) ->
   ValidationLog#{valid => false, errors => [#{"NO PAIRS" => "Finished"} | Errors]};
 
-rules_for_codepairs(Table, [{Code, Phone} | Pairs], ValidationLog) ->
+rules_for_codepairs(PhoneType, Table, [{Code, Phone} | Pairs], ValidationLog) ->
   Rules = ets:lookup(Table, Code),
-  #{valid := IsValid, errors := ResErrors} = ValidationResult = rules_for_code(Rules, ValidationLog, {Code, Phone}),
+  #{valid := IsValid, errors := ResErrors} = ValidationResult = rules_for_code(PhoneType, Rules, ValidationLog, {Code, Phone}),
   if IsValid ->
     ValidationResult;
     true ->
-    rules_for_codepairs(Table, Pairs, ValidationLog#{errors => ResErrors})
+    rules_for_codepairs(PhoneType, Table, Pairs, ValidationLog#{errors => ResErrors})
   end.
 
 %% -------------------------------------------------------------------
 %% @private
 %% check does phone match rule for region
 %% -------------------------------------------------------------------
--spec rules_for_code(Rules, ValidationLog, {Code, Phone}) -> Result when
+-spec rules_for_code(PhoneType, Rules, ValidationLog, {Code, Phone}) -> Result when
+  PhoneType  :: atom(),
   Rules :: list(),
   ValidationLog :: maps:map(),
   Code :: binary(),
   Phone :: binary(),
   Result :: maps:map().
 
-rules_for_code([], #{errors := Errors} = ValidationLog, {Code, _}) ->
+rules_for_code(_, [], #{errors := Errors} = ValidationLog, {Code, _}) ->
   Error = #{Code => <<"No country code info found">>},
   ValidationLog#{valid => false, errors => [Error | Errors]};
 
-rules_for_code([#countryphones{code_rules = CR}],  ValidationLog, {Code, Phone}) ->
-  match_code_rule(CR, ValidationLog, {Code, Phone});
+rules_for_code(PhoneType, [#countryphones{code_rules = CR}],  ValidationLog, {Code, Phone}) ->
+  match_code_rule(PhoneType, CR, ValidationLog, {Code, Phone});
 
-rules_for_code(_E, #{errors := Errors} = ValidationLog, {Code, _}) ->
+rules_for_code(_, _E, #{errors := Errors} = ValidationLog, {Code, _}) ->
   Error = #{Code => <<"Mnesia cointains corrupted record">>},
   ValidationLog#{valid => false, errors => [Error | Errors]}.
 
@@ -135,13 +137,13 @@ rules_for_code(_E, #{errors := Errors} = ValidationLog, {Code, _}) ->
 %% @private
 %% match code on rule
 %% -------------------------------------------------------------------
-match_code_rule([], ValidationLog, _) ->
+match_code_rule(_, [], ValidationLog, _) ->
   ValidationLog;
 
-match_code_rule([#code_set{lengths = LenghtRange, pattern = Pattern, name = Name, id = Id} |
+match_code_rule(mobile, [#code_set{lengths = LenghtRange, pattern = Pattern, name = Name, id = Id} |
                  Rules], #{errors := Errors} = ValidationLog, {Code, Phone}) ->
-#{valid := IsValid, error := Error} =  valid_phone_with_length_rules(Code, Phone, LenghtRange, Pattern),
-InternationalPhone = <<"+", Code/binary, Phone/binary>>,
+  #{valid := IsValid, error := Error} =  valid_phone_with_length_rules(Code, Phone, LenghtRange, Pattern),
+  InternationalPhone = <<"+", Code/binary, Phone/binary>>,
   if IsValid ->
     #{valid => true,
     phone => InternationalPhone,
@@ -150,9 +152,24 @@ InternationalPhone = <<"+", Code/binary, Phone/binary>>,
     id => Id,
     code => Code},
     errors => []};
-  true ->
-  match_code_rule(Rules, ValidationLog#{errors => [Error | Errors]}, {Code, Phone})
-end.
+    true ->
+    match_code_rule(mobile, Rules, ValidationLog#{errors => [Error | Errors]}, {Code, Phone})
+  end;
+
+match_code_rule(emergency, [#code_set{lengths = LenghtRange, pattern = Pattern, name = Name, id = Id} |
+                 Rules], #{errors := Errors} = ValidationLog, {Code, Phone}) ->
+  #{valid := IsValid, error := Error} =  valid_phone_with_length_rules(Code, Phone, LenghtRange, Pattern),
+  if IsValid ->
+    #{valid => true,
+    phone => <<Phone/binary>>,
+    country_metadata => #{
+    name => Name,
+    id => Id,
+    code => <<"">>},
+    errors => []};
+    true ->
+    match_code_rule(emergency, Rules, ValidationLog#{errors => [Error | Errors]}, {Code, Phone})
+  end.
 
 %% -------------------------------------------------------------------
 %% @private
