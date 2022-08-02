@@ -47,7 +47,8 @@ is_mobile_phone_valid(Msisdn) ->
   Result :: boolean().
 
 is_emergency_number(Code, Number) ->
-  maps:get(valid, short_phone_number_info(Code, Number)).
+  Normalized = extract_possible_number(Number),
+  maps:get(valid, short_phone_number_info(Code, Normalized)).
 
 %% -------------------------------------------------------------------
 %% @private
@@ -202,17 +203,17 @@ extract_possible_number(Msisdn) ->
   Len = string:length(Msisdn),
   case re:run(Msisdn, ?VALID_START_CHAR_PATTERN) of
     {match,[{Start,_}]} ->
-      Part1 = binary:part(Msisdn, Start, Len - 1 - Start),
+      Part1 = binary:part(Msisdn, Start, Len - Start),
       Last = case re:run(Part1, ?UNWANTED_END_CHARS_PATTERN) of
         {match,[{Last1,_}]} ->
-          Last1 - 1;
+          Last1;
         _ -> 
-          Len - 1 - Start
+          Len - Start
       end,
       Part2 = binary:part(Part1, 0, Last),
       case re:run(Part2, ?SECOND_NUMBER_START_PATTERN) of
         {match,[{Last2,_}]} ->
-          binary:part(Part2, 0, Last2 - 1);
+          binary:part(Part2, 0, Last2);
         _ -> 
           Part2
       end;            
