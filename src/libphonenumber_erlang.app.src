@@ -1,7 +1,7 @@
 %% -*- mode: erlang; -*-
 {application, libphonenumber_erlang,
  [{description, "Libphonenumber for Erlang"},
-  {vsn, "0.2.0"},
+  {vsn, "0.2.1"},
   {pkg_name, libphonenumber_erlang},
   {modules, []},
   {mod, {libphonenumber_erlang_app, []}},
